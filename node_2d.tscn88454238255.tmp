@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://di7nv1721dgk6"]
+
+[ext_resource type="PackedScene" uid="uid://clc350hloy0gu" path="res://Player/player.tscn" id="1_8mii2"]
+
+[sub_resource type="GDScript" id="GDScript_wtcfe"]
+script/source = "## Followed tutorial from Queble https://www.youtube.com/watch?v=vsBb9921GfA
+
+class_name  Stats extends Resource
+
+enum BuffableStats {
+		HEALTH,
+		DEFENSE,
+		ATTACK,
+}
+
+const STAT_CURVES: Dictionary[BuffableStats, Curve] = {
+	BuffableStats.HEALTH: 	preload(\"uid://blqay2dmxh8wv\"),
+	BuffableStats.DEFENSE: 	preload(\"uid://yssbe1wfwfbb\"),
+	BuffableStats.ATTACK: 	preload(\"uid://bbx7jjb0qakhd\"),
+}
+
+const BASE_LEVEL_XP			:float	= 100.0
+
+signal health_depleted
+signal health_changed(cur_health: int, max_health: int)
+
+@export var base_health		:float 	= 10
+@export var base_defense	:float 	= 1
+@export var base_attack		:int 	= 1
+@export var experience		:int	= 0: set= _on_experience_set
+
+
+
+var level: int:
+	get: return floor(max(1.0, sqrt(experience/BASE_LEVEL_XP)+0.5))
+var current_max_health		:float 	= 10
+var current_max_defense		:float 	= 1
+var current_max_attack		:int 	= 1
+
+var health: int = 0: set = _on_health_set 
+
+var stat_buffs: Array[StatBuff]
+
+
+##general shop 
+@export var gshop_discount  :float = 1
+@export var gshop_stock     :float = 1
+
+##forge modifiers
+
+var forge_discount	:float = 1
+var forge_stock		:float = 1
+
+
+func _init() -> void:
+	setup_stats.call_deferred()
+	
+func setup_stats() -> void:
+	health=current_max_health
+	
+func add_buff(buff: StatBuff)->void:
+	stat_buffs.append(buff)
+	recalculate_stats.call_deferred()
+
+func remove_buff(buff: StatBuff)-> void:
+	stat_buffs.append(buff)
+	recalculate_stats.call_deferred()	
+
+func recalculate_stats() -> void:
+	var stat_multipliers: Dictionary = {} ##amount to multiply included stats by
+	var stat_addends	: Dictionary = {} ##amount to add to included stats
+	
+	for buff in stat_buffs:
+		var stat_name: String = BuffableStats.keys()[buff.stat].to_lower()
+		match buff.buff_type:
+				StatBuff.BuffType.ADD:
+					if not stat_addends.has(stat_name):
+						stat_addends[stat_name]=0.0
+					stat_addends[stat_name]+= buff.buff_amount
+				StatBuff.BuffType.MULTIPLY:
+					if not stat_multipliers.has(stat_name):
+						stat_multipliers[stat_name]=1.0
+						stat_multipliers[stat_name] += buff.buff_amount
+						
+					if stat_multipliers[stat_name]<0.0:
+						stat_multipliers[stat_name]=0.0
+			
+	var stat_sample_pos: float = (float(level)/100.0) - 0.01
+	current_max_health= base_health * STAT_CURVES[BuffableStats.HEALTH].sample(stat_sample_pos)
+	current_max_defense= base_defense * STAT_CURVES[BuffableStats.DEFENSE].sample(stat_sample_pos)
+	current_max_attack= base_attack * STAT_CURVES[BuffableStats.ATTACK].sample(stat_sample_pos)
+	
+	for stat_name in stat_multipliers:
+		var cur_property_name: String = str(\"current_\" + stat_name)
+		set(cur_property_name, get(cur_property_name) * stat_multipliers[stat_name])
+	for stat_name in stat_addends:
+		var cur_property_name: String = str(\"current_\" + stat_name)
+		set(cur_property_name, get(cur_property_name) + stat_addends[stat_name])
+		
+		
+	pass
+
+func _on_health_set(new_value:int)-> void:
+	health = clampi(new_value, 0, current_max_health)
+	if health <= 0: health_depleted.emit()
+
+func _on_experience_set(new_value: int) -> void:
+	var old_level: int = level
+	experience=new_value
+	
+	if not old_level == level:
+		recalculate_stats()
+"
+
+[sub_resource type="Resource" id="Resource_wtcfe"]
+resource_local_to_scene = true
+script = SubResource("GDScript_wtcfe")
+
+[node name="Node2D" type="Node2D" unique_id=1262273276]
+
+[node name="Player" parent="." unique_id=1135449042 instance=ExtResource("1_8mii2")]
+stats = SubResource("Resource_wtcfe")
