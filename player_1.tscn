@@ -3,14 +3,6 @@
 [ext_resource type="Script" uid="uid://fq242ahh6ydn" path="res://Player/Scripts/statMod.gd" id="1_bxx23"]
 [ext_resource type="Script" uid="uid://dxpwdxllujta" path="res://Player/Scripts/Player Stats/PlayerStats.gd" id="1_squ5q"]
 [ext_resource type="Script" uid="uid://c64fewgb314mt" path="res://stat_data.gd" id="3_qh3su"]
-[ext_resource type="Script" uid="uid://83dwpbt0yfaa" path="res://Player/Scripts/stat.gd" id="4_buxg0"]
-
-[sub_resource type="Resource" id="Resource_buxg0"]
-script = ExtResource("4_buxg0")
-baseValue = 0.01
-statName = "Brawn"
-statAbb = "BRA"
-metadata/_custom_type_script = "uid://83dwpbt0yfaa"
 
 [node name="Player1" type="CharacterBody2D" unique_id=557570665]
 
@@ -26,4 +18,3 @@ script = ExtResource("1_squ5q")
 
 [node name="StatData" type="Node" parent="Node" unique_id=766876829]
 script = ExtResource("3_qh3su")
-strength = SubResource("Resource_buxg0")
