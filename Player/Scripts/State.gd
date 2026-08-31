@@ -1,5 +1,9 @@
+#tutorials
+#https://www.youtube.com/watch?v=c2T3oGt4HxM
+#https://www.youtube.com/watch?v=ozUS1cSgFKs
 class_name State extends Node
 
+signal switch_state(state: State)
 ##stores a reference to the player that this State belongs to
 static var player: Player 
 
@@ -9,18 +13,18 @@ func _ready():
 
 
 ##What happens when the player enters this State?
-func enter():
+func enter_state()->void:
 	pass
 
-func exit():
+func exit_state()->void:
 	pass
 	
-func process(_delta : float ) -> State:
+func update(_delta : float ) ->void:
 	
-	return null
+	pass
 	
-func physics(_delta : float ) -> State:
-	return null
+func physics_update(_delta : float ) -> void:
+	pass
 	
 func handle_input(_event : InputEvent ) -> State:
 	return null

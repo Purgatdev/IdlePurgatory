@@ -3,10 +3,13 @@ class_name largeStat
 
 var value_array:	PackedInt64Array= [] 
 var dec: 						int = 0
-var val_amount:					int	= 100
+var val_amount:					int	= 5
 var val_index:					int	= 0
 #only works on powers of 1000 for some reason...
-var base:						int	= 1000000 #100000000 0000000000 = 1 quintillion 
+#1000000000000000000 = 1 quintillion 
+#1000000000 = 1 billion. Using this instead of a quintillion *should* mean 
+#that no two values multiplied integer overflow.
+var base:						int	= 1000000000 
 
 func string_to_big(_input: String) -> largeStat:
 	
@@ -111,11 +114,6 @@ func get_val() -> String:
 	if value_array[value_array.size()-1] != 0:
 		output=output+"."+str(value_array[value_array.size()-1])
 		
-	#for x in value_array:
-		#if x==0:
-			#continue
-		#output=output+str(x)
-	
 	return output
 func get_raw_val() -> String:
 	var output: String =""
@@ -205,59 +203,44 @@ func multLS(_input: Variant)->largeStat:
 		result[ind-1]+=carry
 	result=result.slice(0,-1)
 	var result_size=result.size()
-	#for i in range(0,result_size,1):
-		#if result[i]==0:
-			#result=result.slice(1, result.size())
-			#
-		#if result.size()<=val_amount:
-			#break
 	while(result.size()>val_amount):
 		result=result.slice(1, result.size())
 		
 		
 	product=largeStat.new(result)
-	#if (value_array[value_array.size()-1]!=0) and (multiplier[value_array.size()-1]!=0):
-		#var prodstr: String = product.get_raw_val()
-		#var dec1:int
-		#if (value_array[value_array.size()-1]!=0) and (multiplier[value_array.size()-1]!=0):
-			#dec1= (int_size(value_array[value_array.size()-1])) + int_size(multiplier[value_array.size()-1])
-		#elif (value_array[value_array.size()-1]==0) and (multiplier[value_array.size()-1]!=0):
-			#dec1= int_size(multiplier[value_array.size()-1])+1
-		#elif (value_array[value_array.size()-1]!=0) and (multiplier[value_array.size()-1]==0):
-			#dec1=int_size(value_array[value_array.size()-1])+1
-		#
-		#prodstr = prodstr.substr(0, prodstr.length()-dec1 ) + "." + prodstr.substr(prodstr.length()- dec1 , -1) 
-		#
-		#
-		#for i in range(prodstr.length()-1,0,-1):
-			#if prodstr[i] != "0":
-				#break
-			#prodstr=prodstr.substr(0,prodstr.length()-1)
-		#
-		#product = largeStat.new(prodstr)
-	#if product.value_array[val_amount-1] != 0:
-		#var helper:	String 	= product.get_raw_val()
-		#var dec_len:	int = clamp(int_size(value_array[val_amount-1])	,0,INF) + clamp(int_size(multiplier[val_amount-1])	,0,INF)
-		#helper= helper.substr(0,helper.length()-dec_len) + "." + helper.substr(helper.length()-dec_len,-1)
-		#product = largeStat.new(helper)
 	
 
 	
 	return product
+
+func subLS(_input: Variant)->largeStat:
+	var diff:	largeStat	=largeStat.new(0)
+	var carry:	int			=0
+	var i:		int			=val_amount-2
+	var subend : PackedInt64Array
+	var _dec: int = 0
+	var hcarry: int = 0
 	
-#func karatsuba(x: Variant, y: Variant) -> largeStat:
-		#
-	#
-	#if x < 10 or y<10:
-		#var product: largeStat = largeStat.new(x*y)
-		#return product
-	#else:
-		#var n: int= max( x.get_val().length(), y.get_val().length())
-		#var half: int= floor(n/2)
-		#var a:largeStat=largeStat.new() floor(x/ (pow(10,half)) )
-		#var b:int= x % (pow(10,half))
-		#var c:int= 
-		#var d:int=
-		#var ac:int=
-		#var bd:int=
-		#ad_plus_bc=karatsuba(a+b,c+d)-ac-bd
+	#region largeStat
+	if (_input is largeStat):
+		subend =_input.value_array
+	#endregion
+	elif _input is String or _input is int or _input is float:
+		var helper: largeStat=largeStat.new(_input)
+		subend = helper.value_array 	
+		
+		
+	
+	var num_found: bool = false
+	for x in range (0,subend.size()-1,1):
+		if num_found == false :
+			if subend[x] == 0:
+				continue
+			elif subend[x]!=0:
+				num_found=true
+		
+			subend[x]=base-subend[x]
+	diff= largeStat.new(subend)
+	diff = self.addLS(diff)
+	diff= largeStat.new(diff.get_val().substr(1,-1))
+	return diff	
