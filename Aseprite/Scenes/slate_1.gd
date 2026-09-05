@@ -1,15 +1,15 @@
 extends CharacterBody2D
 
-const GRAVITY = 1000
+const GRAVITY = 1000	
 
 enum State { Idle, Run, Jump}
 
 var current_state
 
- 
-const SPEED = 300.0
+const BASEMOVE = 60.0
+const SPEED = BASEMOVE * 2
 const JUMP_VELOCITY = -400.0
-const JUMP_HORIZONTAL = JUMP_VELOCITY/2
+const JUMP_HORIZONTAL = SPEED * .5
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready():
@@ -19,12 +19,12 @@ func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	player_fall(delta)
 	player_idle(delta)
-	player_run(delta)
-	player_jump(delta)
+	#player_run(delta)
+	#player_jump(delta)
 	
 	move_and_slide()
 	
-	player_animations()
+	#player_animations()
 
 func player_fall(delta):
 	if not is_on_floor():
@@ -65,4 +65,4 @@ func player_animations():
 	elif current_state == State.Jump:
 		animated_sprite_2d.play("Jump")
 	elif current_state == State.Run:
-		animated_sprite_2d.play("Run")
+		animated_sprite_2d.play("Run", SPEED/BASEMOVE)

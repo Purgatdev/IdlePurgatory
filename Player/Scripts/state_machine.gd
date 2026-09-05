@@ -8,7 +8,7 @@ class_name StateMachine extends Node
 var active_state:State:
 	set(new_value):
 		active_state=new_value
-		print("Changed to ", active_state.name)
+		#print("Changed to ", active_state.name)
 
 func _ready() ->void:
 	for child_state: State in get_children():
@@ -23,6 +23,7 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if active_state:
 		active_state.physics_update(delta)
+		
 func change_state(new_state: State) -> void:
 	if new_state == active_state:
 		return
@@ -32,3 +33,4 @@ func change_state(new_state: State) -> void:
 	
 	if active_state:
 		active_state.enter_state()
+		
