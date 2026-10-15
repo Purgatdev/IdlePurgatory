@@ -17,8 +17,8 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
-	player_fall(delta)
-	player_idle(delta)
+	#player_fall(delta)
+	#player_idle(delta)
 	#player_run(delta)
 	#player_jump(delta)
 	

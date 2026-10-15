@@ -4,32 +4,14 @@
 [ext_resource type="Script" uid="uid://daxsglbik668f" path="res://Aseprite/Scenes/slate_1.gd" id="1_a40yn"]
 [ext_resource type="Script" uid="uid://cavwkedx4wrpt" path="res://Player/Scripts/movement_module.gd" id="2_7xx7n"]
 [ext_resource type="Texture2D" uid="uid://xcv4rq3vnlig" path="res://Aseprite/Player Characters/run/RunSheet.png" id="2_i66ns"]
+[ext_resource type="Script" uid="uid://dsmtl1yx1jk18" path="res://Aseprite/Scenes/animation_module.gd" id="2_uxssh"]
 [ext_resource type="Texture2D" uid="uid://dy68q4nlcud3u" path="res://Aseprite/Player Characters/jumpfull/jumpfull.png" id="3_p8g41"]
 [ext_resource type="Script" uid="uid://cd23w3j2clyt4" path="res://Player/Scripts/state_machine.gd" id="4_i66ns"]
 [ext_resource type="Script" uid="uid://dmsxgmlwwyiox" path="res://Player/Scripts/Player States/state_idle.gd" id="5_lq3ur"]
 [ext_resource type="Script" uid="uid://cl47j6gleqbhn" path="res://Player/Scripts/Player States/state_move.gd" id="6_i66ns"]
 [ext_resource type="Script" uid="uid://1px1p3ctird5" path="res://Player/Scripts/Player States/state_jump.gd" id="9_u1dlf"]
-[ext_resource type="Script" uid="uid://b3xuonykbpkdj" path="res://Aseprite/Scenes/fall_state.gd" id="10_swg7f"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lq3ur"]
-atlas = ExtResource("1_6736r")
-region = Rect2(0, 0, 64, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_swg7f"]
-atlas = ExtResource("3_p8g41")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uxssh"]
-atlas = ExtResource("3_p8g41")
-region = Rect2(192, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_r7nej"]
-atlas = ExtResource("3_p8g41")
-region = Rect2(256, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_270f5"]
-atlas = ExtResource("3_p8g41")
-region = Rect2(320, 0, 64, 64)
+[ext_resource type="Script" uid="uid://b3xuonykbpkdj" path="res://Player/Scripts/Player States/state_fall.gd" id="11_uxssh"]
+[ext_resource type="Script" uid="uid://dhgnio4ics2xs" path="res://Aseprite/Scenes/state_land.gd" id="12_r7nej"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gyenb"]
 atlas = ExtResource("3_p8g41")
@@ -63,9 +45,33 @@ region = Rect2(768, 0, 64, 64)
 atlas = ExtResource("3_p8g41")
 region = Rect2(832, 0, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_lq3ur"]
+atlas = ExtResource("1_6736r")
+region = Rect2(0, 0, 64, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_swg7f"]
+atlas = ExtResource("3_p8g41")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uxssh"]
+atlas = ExtResource("3_p8g41")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r7nej"]
+atlas = ExtResource("3_p8g41")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_270f5"]
+atlas = ExtResource("3_p8g41")
+region = Rect2(320, 0, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_c626b"]
 atlas = ExtResource("3_p8g41")
 region = Rect2(896, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dmt4a"]
+atlas = ExtResource("3_p8g41")
+region = Rect2(896, 0, 64, 49)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_txlgs"]
 atlas = ExtResource("2_i66ns")
@@ -101,6 +107,35 @@ region = Rect2(448, 0, 64, 80)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ahg1b"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gyenb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e8m2g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wx2y2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dj2i1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6bgq2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vi7l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdocq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_psjk1")
+}],
+"loop": 2,
+"name": &"Fall",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lq3ur")
@@ -155,6 +190,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_dmt4a")
+}],
+"loop": 1,
+"name": &"Land",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_txlgs")
 }, {
 "duration": 1.0,
@@ -203,7 +246,10 @@ metadata/_custom_type_script = "uid://cavwkedx4wrpt"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=55679334]
 position = Vector2(0, -24)
 sprite_frames = SubResource("SpriteFrames_ahg1b")
-animation = &"Run"
+animation = &"Fall"
+
+[node name="AnimationPlayer" type="Node" parent="AnimatedSprite2D" unique_id=402831045]
+script = ExtResource("2_uxssh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=825746191]
 position = Vector2(3.12, -20.775)
@@ -220,16 +266,24 @@ move_state = NodePath("../Move")
 jump_state = NodePath("../Jump")
 metadata/_custom_type_script = "uid://ebce1cw6iki"
 
-[node name="Move" type="Node" parent="StateMachine" unique_id=734681989 node_paths=PackedStringArray("idle_state", "jump_state")]
+[node name="Move" type="Node" parent="StateMachine" unique_id=734681989 node_paths=PackedStringArray("idle_state", "jump_state", "fall_state")]
 script = ExtResource("6_i66ns")
 idle_state = NodePath("../Idle")
 jump_state = NodePath("../Jump")
+fall_state = NodePath("../Fall")
 metadata/_custom_type_script = "uid://ebce1cw6iki"
 
-[node name="Jump" type="Node" parent="StateMachine" unique_id=1231904508 node_paths=PackedStringArray("idle_state")]
+[node name="Jump" type="Node" parent="StateMachine" unique_id=1231904508 node_paths=PackedStringArray("idle_state", "fall_state")]
 script = ExtResource("9_u1dlf")
 idle_state = NodePath("../Idle")
+fall_state = NodePath("../Fall")
 
-[node name="State" type="Node" parent="StateMachine" unique_id=541339253]
-script = ExtResource("10_swg7f")
+[node name="Fall" type="Node" parent="StateMachine" unique_id=541339253 node_paths=PackedStringArray("land_state")]
+script = ExtResource("11_uxssh")
+land_state = NodePath("../Land")
+metadata/_custom_type_script = "uid://ebce1cw6iki"
+
+[node name="Land" type="Node" parent="StateMachine" unique_id=365564732 node_paths=PackedStringArray("move_state")]
+script = ExtResource("12_r7nej")
+move_state = NodePath("../Move")
 metadata/_custom_type_script = "uid://ebce1cw6iki"

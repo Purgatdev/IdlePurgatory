@@ -6,9 +6,11 @@ extends State
 @export var jump_state: State
 @export var attack_state: State
 @export var fall_state: State
+ 
 func enter_state()->void:
-	print("Current State: Walk")
-	move_type.emit(MoveModule.MoveType.SCROLLWALK)
+	print("Current State: Run")
+	move_type.emit(MoveModule.MoveType.MAINMOVE)
+	animation.emit("Run")
 	
 
 func update(_delta : float ) ->void:
@@ -16,8 +18,8 @@ func update(_delta : float ) ->void:
 		switch_state.emit(idle_state)
 	if Input.is_action_just_pressed(move_up):
 		switch_state.emit(jump_state)
-	if Input.is_action_just_pressed(click):
-		switch_state.emit(attack_state)
+	#if Input.is_action_just_pressed(click):
+		#switch_state.emit(attack_state)
 
 func _ready():
 	pass

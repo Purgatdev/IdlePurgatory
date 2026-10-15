@@ -7,7 +7,8 @@ extends State
 
 func enter_state()->void:
 	print("Current State: Idle")
-	move_type.emit(MoveModule.MoveType.STILL)
+	move_type.emit(MoveModule.MoveType.MAINMOVE)
+	animation.emit("Idle")
 	
 
 func update(_delta : float ) ->void:

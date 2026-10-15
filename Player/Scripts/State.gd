@@ -5,6 +5,7 @@ class_name State extends Node
 
 signal switch_state(state: State)
 signal move_type(type:int)
+signal animation(type:String)
 ##stores a reference to the player that this State belongs to
 static var player: Player 
 var move_up: String = "move up"

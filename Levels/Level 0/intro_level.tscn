@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://c7j5042i0ctds" path="res://Aseprite/Scenes/Zone 0/cloudfg.png" id="3_042mb"]
 [ext_resource type="Texture2D" uid="uid://ch75uyguqa5iw" path="res://Aseprite/Scenes/Zone 0/gatebg.png" id="4_t7lot"]
 [ext_resource type="PackedScene" uid="uid://dnr6nr4bnykp0" path="res://Aseprite/Scenes/player_1.tscn" id="6_t7lot"]
+[ext_resource type="PackedScene" uid="uid://bsknokqlhjgr8" path="res://Enemies/enemy_slate.tscn" id="8_j3qx4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t7lot"]
 texture = ExtResource("1_ljhff")
@@ -204,3 +205,6 @@ position = Vector2(16, -85)
 [node name="Camera2D" type="Camera2D" parent="Player1" unique_id=705576148]
 position = Vector2(-164, 77)
 offset = Vector2(141.815, -180.315)
+
+[node name="EnemySlate" parent="Player1" unique_id=2079921703 instance=ExtResource("8_j3qx4")]
+position = Vector2(152, 2)
